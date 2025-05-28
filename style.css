@@ -1,0 +1,27 @@
+.mainBox {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 30px auto;
+}
+
+th,
+td {
+    border: 1px solid #999;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    margin: 0px;
+    padding: 10px 15px;
+    font-size: 16px;
+}

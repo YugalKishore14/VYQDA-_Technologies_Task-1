@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Editable React Table</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      const { useState } = React;
+      const initialData = [
+        { name: "Yugal", email: "yugal@example.com", role: "Admin" },
+        { name: "Rajan", email: "rajan@example.com", role: "User" },
+        { name: "Gaurav", email: "gaurav@example.com", role: "User" },
+        { name: "Aniket", email: "aniket@example.com", role: "User" },
+      ];
+      function EdiTable() {
+        const storeData = localStorage.getItem("editTableData");
+        const [data, setData] = useState(
+          storeData ? JSON.parse(storeData) : initialData
+        );
+        const handleChange = (e, rowIndex, key) => {
+          const newData = [...data];
+          newData[rowIndex][key] = e.target.value;
+          setData(newData);
+          localStorage.setItem("editTableData", JSON.stringify(newData));
+        };
+        const handleSubmit = () => {
+          console.log("Data ready to post to API:", data);
+          // Example POST
+          // fetch("https://api.example.com/save", {
+          //   method: "POST",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: JSON.stringify(data)
+          // }).then(res => res.json()).then(console.log);
+        };
+        return (
+          <div className="mainBox">
+            <h2>Editable React Table</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, i) => (
+                  <tr key={i}>
+                    <td>
+                      <input
+                        type="text"
+                        value={row.name}
+                        onChange={(e) => handleChange(e, i, "name")}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="email"
+                        value={row.email}
+                        onChange={(e) => handleChange(e, i, "email")}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={row.role}
+                        onChange={(e) => handleChange(e, i, "role")}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={handleSubmit}>Submit Data</button>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("app"));
+      root.render(<EdiTable />);
+    </script>
+  </body>
+</html>
